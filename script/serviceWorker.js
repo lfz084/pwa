@@ -6,10 +6,9 @@ var cacheFiles = [
   './script/serviceWorker.js'
 ]
 // 定义缓存的key值
-var cacheName = '20190301'
+var cacheName = '20190303'
 
-self.postMessage("installhhhjk")
-console.log("ststststs")
+
 
 // 监听install事件，安装完成后，进行文件缓存
 self.addEventListener('install', function(e) {
