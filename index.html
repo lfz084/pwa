@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="pwa">
+    <meta name="x5-page-mode" content="app">
+    <link rel="shortcut icon" sizes="128x128" href="https://lfz084.github.io/icon.png">
+    <link rel="apple-touch-icon" href="https://lfz084.github.io/icon.png">
+    <link rel="icon" href="https://lfz084.github.io/icon.ico">
+    <title> pwa</title>
+    <script>
+    //serviceWorker.unregister();
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./script/serviceWorker.js')
+                    .then(function(registration) {
+                        // 注册成功
+                        console.log('ServiceWorker registration successful with scope: '+registration.scope)
+                        if(registration.installing) {
+                        console.log('Service worker installing');
+                        } else if(registration.waiting) {
+                        console.log('Service worker installed');
+                        } else if(registration.active) {
+                        console.log('Service worker active');
+                        }
+                    })
+                    .catch(function(err) {
+                        // 注册失败:(
+                        console.log('ServiceWorker registration failed: '+ err)
+                    })
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <img src="./icon.png">
+</body>
+
+</html>
