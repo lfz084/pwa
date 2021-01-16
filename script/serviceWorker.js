@@ -52,6 +52,8 @@ self.addEventListener('fetch', function(e) {
 // 监听activate事件，激活后通过cache的key来判断是否更新cache中的静态资源
 self.addEventListener('activate', function(e) {
     console.log('Service Worker 状态： activate')
+    
+    
     /*
     var cachePromise = caches.keys().then(function(keys) {
         // 遍历当前scope使用的key值
@@ -64,6 +66,7 @@ self.addEventListener('activate', function(e) {
     })
     e.waitUntil(cachePromise)
     */
+    
       // 找到key对应的缓存并且获得可以操作的cache对象
       var cacheOpenPromise = caches.open(cacheName).then(function(cache) {
           // 将需要缓存的文件加进来
