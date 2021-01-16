@@ -3,17 +3,16 @@ var cacheFiles = [
   './404.html',
   './icon.ico',
   './icon.png',
-  './script/serviceWorker.js'
 ]
 // 定义缓存的key值
 var cacheName = '20190303'
 
 
 
+
 // 监听install事件，安装完成后，进行文件缓存
 self.addEventListener('install', function(e) {
     console.log('Service Worker 状态： install')
-    self.postMessage("install")
 
     // 找到key对应的缓存并且获得可以操作的cache对象
     var cacheOpenPromise = caches.open(cacheName).then(function(cache) {
@@ -28,6 +27,12 @@ self.addEventListener('install', function(e) {
 
 self.addEventListener('fetch', function(e) {
     console.log('现在正在请求：' + e.request.url)
+    postMessage('现在正在请求：' + e.request.url)
+    self.clients.matchAll().then(client => {
+        for (cl in client) {
+        cl.postMessage('this message is from sw.js, to page');
+        }
+    })
 
     e.respondWith(
         // 判断当前请求是否需要缓存
@@ -47,6 +52,7 @@ self.addEventListener('fetch', function(e) {
 // 监听activate事件，激活后通过cache的key来判断是否更新cache中的静态资源
 self.addEventListener('activate', function(e) {
     console.log('Service Worker 状态： activate')
+    /*
     var cachePromise = caches.keys().then(function(keys) {
         // 遍历当前scope使用的key值
         return Promise.all(keys.map(function(key) {
@@ -56,6 +62,13 @@ self.addEventListener('activate', function(e) {
             }
         }))
     })
+    e.waitUntil(cachePromise)
+    */
+      // 找到key对应的缓存并且获得可以操作的cache对象
+      var cacheOpenPromise = caches.open(cacheName).then(function(cache) {
+          // 将需要缓存的文件加进来
+          return cache.addAll(cacheFiles)
+      })
     e.waitUntil(cachePromise)
     // 保证第一次加载fetch触发
     return self.clients.claim()
